@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Exo7;
 
 namespace Exo6
 {
     public class MStagiaire
     {
-
-        
         private int numOsiaStagiaire;
         private string nomStagiaire;
         private string prenomStagiaire;
@@ -17,7 +16,7 @@ namespace Exo6
         private string villeStagiaire;
         private string codePostalStagiaire;
         private int nbreNotesStagiaire;
-        private double pointsNotesStagiaire;
+        private int pointsNotesStagiaire;
 
         public int NumOsiaStagiaire { get { return numOsiaStagiaire; } set { this.numOsiaStagiaire = value; } }
         public string NomStagiaire { get { return this.nomStagiaire; } set { this.nomStagiaire = value.Trim().ToUpper(); } }
@@ -64,7 +63,7 @@ namespace Exo6
 
 
         /// <summary>     /// alimente nbreNotesStagiaire et pointsNotesStagiaire     /// </summary>     /// <param name="laNote">la nouvelle note à prendre en compte</param>     
-        public void RecevoirNote(float laNote) { this.nbreNotesStagiaire++; this.pointsNotesStagiaire += laNote; }
+        public void RecevoirNote(int laNote) { this.nbreNotesStagiaire++; this.pointsNotesStagiaire += laNote; }
 
         /// <summary>     /// calcule et retourne la moyenne des notes     /// </summary>     /// <returns>nouvelle moyenne des notes</returns>    
         public Double DonnerMoyenne()

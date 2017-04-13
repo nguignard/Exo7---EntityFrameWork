@@ -12,6 +12,7 @@ namespace Exo7
     public partial class frmVisuStagiaire : Exo6.frmStagiaire
     {
         private MStagiaire leStagiaire; // leStagiaire est de nivau class pour être utiliser dans toutes la classe et est initialisee par le constructeur
+        private TableStagiaire stagiaireEF = new TableStagiaire();
 
         public frmVisuStagiaire(MStagiaire unStagiaire)
         {
@@ -33,9 +34,6 @@ namespace Exo7
             this.txtVille.Text = unStagiaire.VilleStagiaire;
             this.txtCodePostal.Text = unStagiaire.CodePostalStagiaire.ToString();
         }
-
-
-
 
         private void btnValider_Click(object sender, EventArgs e)
         { //Creer un stagiaire
@@ -67,10 +65,6 @@ namespace Exo7
         }
 
 
-
-
-
-
         /// <summary>
         ///        //instancie controle et affecte les membres , intercepte les eventuelles erreur
         /// </summary>
@@ -91,7 +85,6 @@ namespace Exo7
                 leStagiaire.RueStagiaire = base.txtAdresse.Text;         // avec conversion en MAJ     
                 leStagiaire.VilleStagiaire = base.txtVille.Text;
                 leStagiaire.CodePostalStagiaire = base.txtCodePostal.Text.Trim();
-
                 return true;
             }
 
@@ -115,7 +108,13 @@ namespace Exo7
 
         private void btnSupprimer_Click(object sender, EventArgs e)
         {
-            Donnees.ArrayStag.Remove(leStagiaire);
+            // Donnees.ArrayStag.Remove(leStagiaire);
+            int id = leStagiaire.NumOsiaStagiaire;
+            TableStagiaire s = new TableStagiaire();
+            s = Donnees.Db.TableStagiaire.Find(id);
+            Donnees.Db.TableStagiaire.Remove(s);
+            Donnees.Db.SaveChanges();
+
             this.DialogResult = DialogResult.OK;
 
         }

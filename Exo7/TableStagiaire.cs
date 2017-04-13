@@ -12,15 +12,15 @@ namespace Exo7
     using System;
     using System.Collections.Generic;
     
-    public partial class Table_1
+    public partial class TableStagiaire
     {
-        public int numOsiaStagiaire { get; set; }
-        public string nomStagiaire { get; set; }
-        public string prenomStagiaire { get; set; }
-        public string rueStagiaire { get; set; }
-        public string villeStagiaire { get; set; }
-        public string codePostalStagiaire { get; set; }
-        public Nullable<int> nbreNotesStagiaire { get; set; }
-        public Nullable<int> pointsNotesStagiaire { get; set; }
+        public int NumOsiaStagiaire { get; set; }
+        public string NomStagiaire { get; set; }
+        public string PrenomStagiaire { get; set; }
+        public string RueStagiaire { get; set; }
+        public string VilleStagiaire { get; set; }
+        public string CodePostalStagiaire { get; set; }
+        public Nullable<int> NbreNotesStagiaire { get; set; }
+        public Nullable<int> PointsNotesStagiaire { get; set; }
     }
 }

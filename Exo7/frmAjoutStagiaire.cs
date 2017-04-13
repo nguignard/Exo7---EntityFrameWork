@@ -32,7 +32,7 @@ namespace Exo6
         private bool controle()
         {
             bool code = true;
-            
+
             if (!Outils.EstEntier(this.txtOSIA.Text))
             {
                 code = false;
@@ -59,7 +59,7 @@ namespace Exo6
         {
 
             MStagiaire nouveauStagiaire = new MStagiaire();
-
+            TableStagiaire nouveauStagiaireEF = new TableStagiaire();
             try
             {
                 //affecter les donnees de la form a la nouvelle instance de  stagiaire
@@ -76,15 +76,33 @@ namespace Exo6
                 nouveauStagiaire.CodePostalStagiaire = base.txtCodePostal.Text.Trim();
 
 
-                //Ajout du stagiaire dans la liste
-                Donnees.ArrayStag.Add(nouveauStagiaire);
+                //Création d'un stagiaire pour BD
+                nouveauStagiaireEF.NumOsiaStagiaire = nouveauStagiaire.NumOsiaStagiaire;
+                nouveauStagiaireEF.NomStagiaire = nouveauStagiaire.NomStagiaire;
+                nouveauStagiaireEF.PrenomStagiaire = nouveauStagiaire.PrenomStagiaire;
+                nouveauStagiaireEF.RueStagiaire = nouveauStagiaire.RueStagiaire;         // avec conversion en MAJ     
+                nouveauStagiaireEF.CodePostalStagiaire = nouveauStagiaire.CodePostalStagiaire;
+                nouveauStagiaireEF.VilleStagiaire = nouveauStagiaire.VilleStagiaire;
+                //nouveauStagiaireEF.PointsNotesStagiaire = 0;
+                //nouveauStagiaireEF.NbreNotesStagiaire = 0;
+
+               
+                // inserer en BD
+                Donnees.Db.TableStagiaire.Add(nouveauStagiaireEF);
+                //MAJ BD
+                Donnees.Db.SaveChanges();
+
+                ////Ajout du stagiaire dans la liste
+
+                //Donnees.ArrayStag.Add(nouveauStagiaire);
+
                 return true;
             }
 
             catch (Exception ex)
             {
-
                 nouveauStagiaire = null;
+                nouveauStagiaireEF = null;
                 MessageBox.Show("Erreur : \n" + ex.Message, "Ajout de stagiaire");
                 return false;
 

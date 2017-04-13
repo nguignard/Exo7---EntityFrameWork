@@ -16,6 +16,7 @@ namespace Exo7
         public frmExo7()
         {
             InitializeComponent();
+            this.afficheStagiaire();
         }
 
 
@@ -25,23 +26,19 @@ namespace Exo7
             DataRow dr;
 
             //on ajoute 3 colonnes à la dataTable
-            dt.Columns.Add("Numero Osia", typeof(System.String));
+            dt.Columns.Add("Numero Osia", typeof(System.Int32));
             dt.Columns.Add("Nom", typeof(System.String));
             dt.Columns.Add("prenom", typeof(System.String));
 
-            for (int i = 0; i < Donnees.ArrayStag.Count; i++)
+            foreach (TableStagiaire stagiaireEF in Donnees.Db.TableStagiaire.ToList())
             {
                 dr = dt.NewRow(); //instanciation datarow = ligne
-
-                dr[0] = Donnees.ArrayStag[i].NumOsiaStagiaire; //affectation des 3 colonne
-                dr[1] = Donnees.ArrayStag[i].NomStagiaire;
-                dr[2] = Donnees.ArrayStag[i].PrenomStagiaire;
+                dr[0] = stagiaireEF.NumOsiaStagiaire; //affectation des 3 colonne
+                dr[1] = stagiaireEF.NomStagiaire;
+                dr[2] = stagiaireEF.PrenomStagiaire;
 
                 dt.Rows.Add(dr); // ajjout d'unne nouvelle ligne, Rows est une collection
             }
-
-            
-
 
             this.grdStagiaire.DataSource = dt.DefaultView; // on affecte la source de la datagrid est dt
             this.grdStagiaire.Refresh();
@@ -63,11 +60,31 @@ namespace Exo7
         {
             //On ouvre le stagiaire correspondant au double click
             int iStag; // rang du stagiaire dans le tableau
-            iStag = this.grdStagiaire.CurrentRow.Index; // n° de stagiaire = n° de la ligne
+            iStag = (int)this.grdStagiaire.CurrentRow.Cells[0].Value; // 
 
-            MStagiaire leStagiaire = Donnees.ArrayStag[iStag];
+            TableStagiaire stagiaireEF = Donnees.Db.TableStagiaire.Find(iStag);
+
+            MStagiaire leStagiaire = new MStagiaire();
+            leStagiaire.NumOsiaStagiaire = stagiaireEF.NumOsiaStagiaire;
+            leStagiaire.NomStagiaire = stagiaireEF.NomStagiaire;
+            leStagiaire.PrenomStagiaire = stagiaireEF.PrenomStagiaire;
+            leStagiaire.RueStagiaire = stagiaireEF.RueStagiaire;     
+            leStagiaire.VilleStagiaire = stagiaireEF.VilleStagiaire;
+            leStagiaire.CodePostalStagiaire = stagiaireEF.CodePostalStagiaire;
+
             frmVisuStagiaire frmVisu = new frmVisuStagiaire(leStagiaire);
+
             frmVisu.ShowDialog();
+
+            stagiaireEF.NumOsiaStagiaire = leStagiaire.NumOsiaStagiaire;
+            stagiaireEF.NomStagiaire = leStagiaire.NomStagiaire;
+            stagiaireEF.PrenomStagiaire = leStagiaire.PrenomStagiaire;
+            stagiaireEF.RueStagiaire = leStagiaire.RueStagiaire;         // avec conversion en MAJ     
+            stagiaireEF.VilleStagiaire = leStagiaire.VilleStagiaire;
+            stagiaireEF.CodePostalStagiaire = leStagiaire.CodePostalStagiaire;
+
+            Donnees.Db.SaveChanges();
+
             this.afficheStagiaire();
         }
 
@@ -77,8 +94,17 @@ namespace Exo7
 
         private void btnSupprimer_Click(object sender, EventArgs e)
         {
-            int iStag = this.grdStagiaire.CurrentRow.Index; // n° de stagiaire = n° de la ligne
-            Donnees.ArrayStag.RemoveAt(iStag);
+            int iStag = (int)this.grdStagiaire.CurrentRow.Cells[0].Value; // n° de stagiaire = n° de la ligne
+            TableStagiaire StagiaireEF = Donnees.Db.TableStagiaire.Find(iStag);
+
+            if ( MessageBox.Show("suppression?" + StagiaireEF.NomStagiaire.Trim(),"suppression") == DialogResult.OK)
+            {
+
+                // Donnees.ArrayStag.RemoveAt(iStag);
+                Donnees.Db.TableStagiaire.Remove(StagiaireEF);
+                Donnees.Db.SaveChanges();
+            }
+
             this.afficheStagiaire();
         }
 

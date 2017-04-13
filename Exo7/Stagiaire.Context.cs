@@ -13,10 +13,10 @@ namespace Exo7
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class StagiaireEntities : DbContext
+    public partial class StagiaireEntities2 : DbContext
     {
-        public StagiaireEntities()
-            : base("name=StagiaireEntities")
+        public StagiaireEntities2()
+            : base("name=StagiaireEntities2")
         {
         }
     
@@ -25,6 +25,6 @@ namespace Exo7
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Table_1> Table_1 { get; set; }
+        public virtual DbSet<TableStagiaire> TableStagiaire { get; set; }
     }
 }
